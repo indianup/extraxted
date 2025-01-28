@@ -60,11 +60,11 @@ if __name__ == "__main__" :
         workers = 50
     )
     
-    async def main():
-        await bot.start()
-        bot_info  = await bot.get_me()
-        LOGGER.info(f"<--- @{bot_info.username} Started (c) STARKBOT --->")
-        await idle()
+   # async def main():
+      #  await bot.start()
+      #  bot_info  = await bot.get_me()
+      #  LOGGER.info(f"<--- @{bot_info.username} Started (c) STARKBOT --->")
+      #  await idle()
     
-    asyncio.get_event_loop().run_until_complete(main())
-    LOGGER.info(f"<---Bot Stopped-->")
+   # asyncio.get_event_loop().run_until_complete(main())
+   # LOGGER.info(f"<---Bot Stopped-->")
