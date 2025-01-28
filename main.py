@@ -29,42 +29,38 @@ import tgcrypto
 from pyromod import listen
 from logging.handlers import RotatingFileHandler
 
+from pyrogram import Client, idle
+from pyrogram.errors import UserDeactivated, AuthKeyInvalid
+import logging
+import asyncio
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
 LOGGER = logging.getLogger(__name__)
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(name)s - %(message)s",
-    datefmt="%d-%b-%y %H:%M:%S",
-    handlers=[
-        RotatingFileHandler(
-            "log.txt", maxBytes=5000000, backupCount=10
-        ),
-        logging.StreamHandler(),
-    ],
+
+# Initialize the bot (Replace with your credentials)
+bot = Client(
+    "my_bot",
+    api_id="21705536",
+    api_hash="c5bb241f6e3ecf33fe68a444e288de2d",
+    bot_token="7548153972:AAFCFsVGYjcJmkdAh--f7QmHqNfpSPWTlCw",
 )
 
-# Auth Users
-AUTH_USERS = [ int(chat) for chat in Config.AUTH_USERS.split(",") if chat != '']
+async def main():
+    try:
+        await bot.start()
+        bot_info = await bot.get_me()
+        LOGGER.info(f"<--- @{bot_info.username} Started (c) STARKBOT --->")
+        await idle()  # Keeps the bot running
+    except UserDeactivated:
+        LOGGER.error("The Telegram account associated with this session has been deactivated.")
+    except AuthKeyInvalid:
+        LOGGER.error("Invalid authentication key. Delete the session file and re-login.")
+    except Exception as e:
+        LOGGER.error(f"An unexpected error occurred: {e}")
+    finally:
+        await bot.stop()  # Ensure the bot is stopped gracefully
+        LOGGER.info(f"<---Bot Stopped--->")
 
-# Prefixes 
-prefixes = ["/", "~", "?", "!"]
-
-plugins = dict(root="plugins")
-if __name__ == "__main__" :
-    bot = Client(
-        "StarkBot",
-        bot_token=Config.BOT_TOKEN,
-        api_id=Config.API_ID,
-        api_hash=Config.API_HASH,
-        sleep_threshold=20,
-        plugins=plugins,
-        workers = 50
-    )
-    
-   # async def main():
-      #  await bot.start()
-      #  bot_info  = await bot.get_me()
-      #  LOGGER.info(f"<--- @{bot_info.username} Started (c) STARKBOT --->")
-      #  await idle()
-    
-   # asyncio.get_event_loop().run_until_complete(main())
-   # LOGGER.info(f"<---Bot Stopped-->")
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main())
