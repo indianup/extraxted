@@ -1,0 +1,11 @@
+from pyrogram import Client
+
+bot = Client(
+    "StarkBot",  # Session name
+    api_id="21705536",  # Replace with your API ID
+    api_hash="c5bb241f6e3ecf33fe68a444e288de2d",  # Replace with your API Hash
+    bot_token="7548153972:AAFCFsVGYjcJmkdAh--f7QmHqNfpSPWTlCw"  # Replace with your Bot Token
+)
+
+bot.start()
+bot.stop()
